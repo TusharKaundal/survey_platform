@@ -3,8 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 // Create logs directory if it doesn't exist
-const logDir = path.join(__dirname, "..", "logs");
-console.log(logDir);
+const logDir = path.join(__dirname, "../logs");
 try {
   if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir, { recursive: true });
@@ -12,6 +11,8 @@ try {
 } catch (err) {
   console.error("Failed to create logs directory:", err);
 }
+
+const logFile = path.join(logDir, "error.log");
 
 const logger = createLogger({
   level: "info",
@@ -25,19 +26,16 @@ const logger = createLogger({
       format: format.combine(
         format.colorize(),
         format.printf(({ level, message, timestamp }) => {
-          return `[${timestamp}] ${level}: ${message}`;
+          const errorMessage = level.includes("error")
+            ? message + "\n" + `Check logs for error in ${logFile}`
+            : message;
+          return `[${timestamp}] ${level}: ${errorMessage}`;
         })
       ),
     }),
     new transports.File({
       filename: path.join(logDir, "error.log"),
       level: "error",
-      format: format.combine(
-        format.timestamp(),
-        format.printf(({ level, timestamp, ...args }) => {
-          return `[${timestamp}] ${level}: ${JSON.stringify(args, null, 2)}`;
-        })
-      ),
     }),
   ],
 });

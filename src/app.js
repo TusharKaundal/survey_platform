@@ -3,6 +3,7 @@ const cors = require("cors");
 const errorHandler = require("./middleware/errorHandler");
 const { NotFoundError } = require("./utils/AppError");
 const logger = require("./utils/logger");
+const routes = require("./routes");
 const app = express();
 
 // Request logging middleware
@@ -20,9 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 // enable cors
 app.use(cors());
 
-app.get("/api/v1", (req, res) => {
-  res.send("Hello World");
-});
+app.use("/api/v1", routes);
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {

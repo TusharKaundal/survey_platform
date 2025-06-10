@@ -9,4 +9,4 @@ function catchAsync(fn) {
   };
 }
 
-module.exports = catchAsync;
+module.exports = { catchAsync };

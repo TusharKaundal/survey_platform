@@ -7,6 +7,9 @@ module.exports = {
   mongoose: {
     url: process.env.MONGODB_URL,
   },
-  access_token: process.env.JWT_SECRET,
-  refresh_token: process.env.JWT_REFRESH_SECRET,
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    tokenExpireIn: process.env.JWT_EXPIRES_IN,
+    saltRounds: process.env.BCRYPT_ROUNDS,
+  },
 };
