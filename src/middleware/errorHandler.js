@@ -10,7 +10,7 @@ function errorHandler(err, req, res, next) {
     statusCode: err.statusCode || 500,
     details: err.details,
     path: req.originalUrl,
-    method: req.method
+    method: req.method,
   };
 
   // Log the formatted error
