@@ -13,6 +13,14 @@ function errorHandler(err, req, res, next) {
       ...(err?.details && { errors: err?.details }),
     });
   }
+
+  if (err.code === 11000) {
+    return res.status(400).json({
+      status: "error",
+      message: "You already have a survey with this title",
+    });
+  }
+
   return res.status(500).json({
     status: "error",
     message: "Something went wrong",
